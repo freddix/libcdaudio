@@ -1,7 +1,7 @@
 Summary:	A library of functions for controlling audio CD-ROM players
 Name:		libcdaudio
 Version:	0.99.12p2
-Release:	14
+Release:	15
 License:	LGPL
 Group:		Libraries
 Source0:	http://heanet.dl.sourceforge.net/libcdaudio/%{name}-%{version}.tar.gz
@@ -30,8 +30,8 @@ needed for libcdaudio development.
 %setup -q
 
 # automake 1.12.x fixes
-sed -i -e "/AM_C_PROTOTYPES/d" configure.ac
-sed -i -e "/AUTOMAKE_OPTIONS.*/d" Makefile.am
+%{__sed} -i -e "/AM_C_PROTOTYPES/d" configure.ac
+%{__sed} -i -e "/AUTOMAKE_OPTIONS.*/d" Makefile.am
 
 %build
 %{__libtoolize}
@@ -49,6 +49,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -64,7 +66,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/libcdaudio-config
 %attr(755,root,root) %{_libdir}/lib*.so
-%{_libdir}/lib*.la
 %{_includedir}/*.h
 %{_aclocaldir}/libcdaudio.m4
 %{_pkgconfigdir}/*.pc
